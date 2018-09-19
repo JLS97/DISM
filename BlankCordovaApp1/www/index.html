@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <!--
+        Personalice la directiva de seguridad de contenido en la etiqueta meta como sea necesario. Agregue "unsafe-inline" a default-src para permitir JavaScript insertado.
+        Para obtener más detalles, consulte http://go.microsoft.com/fwlink/?LinkID=617521
+    -->
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="scripts/platformOverrides.js"></script>
+    <script type="text/javascript" src="scripts/index.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <title>BlankCordovaApp1</title>
+</head>
+    <body>
+        <div data-role="page">
+            <div data-role="header">
+                <h1>Página principal</h1>
+            </div>
+            <div role="main" class="ui-content">
+                <p>Detalle Página principal</p>
+            </div>
+            <div data-role="footer">
+                <h4>Pie de página principal</h4>
+            </div>
+            <h3>Otras páginas:</h3>
+            <p><a href="#two" class="ui-btn ui-shadow ui-corner-all">Mostrar página 2</a></p>
+            <p><a href="#popup" class="ui-btn ui-shadow ui-corner-all" data-rel="dialog" data-transition="pop">Acerca de</a></p>
+        </div>
+        <div data-role="page" id="two" data-theme="a">
+            <div data-role="header">
+                <h1>Página 2</h1>
+            </div>
+            <div role="main" class="ui-content">
+                <p>Detalle página 2</p>
+            </div>
+            <p><a href="#one" data-rel="back" calss="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-icon-back ui-btn-icon-left">Atrás</a></p>
+            <div data-role="footer">
+                <h4>Pie de página</h4>
+            </div>
+        </div>
+        <div data-role="page" id="popup">
+            <div data-role="header" data-theme="b">
+                <h1>Acerca de</h1>
+            </div>
+        </div>
+        <div role="main" class="ui-content">
+             <h2>Acerca de</h2>
+            <p>Ventana de dialogo de prueba</p>
+            <p><a href="none" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-icon-back ui-btn-icon-left" ></a></p>
+        </div>
+        <div data-role="footer">
+            <h4>Pie de página</h4>
+        </div>
+    </body>
+</html>
