@@ -30,6 +30,8 @@
     <script>
         var datos;
         var datosfiltrados = [];
+        var datos2;
+        var datosfiltrados2 = [];
         var key = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnc3VzYnNyQGdtYWlsLmNvbSIsImp0aSI6ImI3ZjhmZWM5LWFlYjItNDk2NS04N2QwLTQ2ODIxODUyMDU1NCIsImlzcyI6IkFFTUVUIiwiaWF0IjoxNTM3MzU4MzY2LCJ1c2VySWQiOiJiN2Y4ZmVjOS1hZWIyLTQ5NjUtODdkMC00NjgyMTg1MjA1NTQiLCJyb2xlIjoiIn0.Gq0gpuUYAidhJYV2-RlNaBz6ac9cZrz9nT_8jqJ3WNE';
         var settings = {
             "async": true,
@@ -40,21 +42,27 @@
                 "cache-control": "no-cache"
             }
         }
-        $(document).on("pagecreate", "#index", function (event) {
+        var settings2 = {
+            "async": true,
+            "crossDomain": true,
+            "url": "https://opendata.aemet.es/opendata/api/valores/climatologicos/inventarioestaciones/todasestaciones?api_key=" + key,
+            "method": "GET",
+            "headers": {
+                "cache-control": "no-cache"
+            }
+        }
+        $(document).on("pagecreate", function (event) {
             InicializarGrid();
+        });
+       /$(document).on("pagecreate", "#index", function (event) {
+            InicializarGrid2();
         });
         function InicializarGrid() {
             $.ajax(settings).done(function (response) {
                 var j = 0;
                 //Parseo a objeto para filtrar y meter en datatable
                 datos = JSON.parse(response);
-                //Filtro los municipios que contengan "san vicente"
-                datos.forEach(function (entry) {
-                    if (entry.nombre.toLowerCase().indexOf("san vicente") > -1) {
-                        datosfiltrados[j] = entry;
-                        j = j + 1;
-                    }
-                });
+                //Filtro los municipios que tengaqn ams de 50000 habitantes
                 datos.forEach(function (entry) {
                     if (entry.num_hab > 50000) {
                         datosfiltrados[j] = entry;
@@ -72,6 +80,41 @@
                         },
                         {
                             "data": "longitud"
+                        },
+                        {
+                            "data": "num_hab"
+                        }
+                    ]
+                });
+            });
+        }
+
+       function InicializarGri2() {
+            $.ajax(settings2).done(function (response) {
+                var i = 0;
+                //Parseo objeto para filtrar y meter en datatable
+                datos2  = JSON.parse(response);
+                //Filtro
+                datos2.forEach(function (entry) {
+                    
+                        datosfiltrados2[i] = entry;
+                        i = i + 1;
+                    
+                });
+                tabla2 = $('#dataGrid2').DataTable2({
+                    "data": datosfiltrados2,
+                    "columns": [
+                        {
+                            "data": "nombre"
+                        },
+                        {
+                            "data": "latitud"
+                        },
+                        {
+                            "data": "longitud"
+                        },
+                        {
+                            "data": "idema"
                         }
                     ]
                 });
@@ -80,23 +123,10 @@
     </script>
 </head>
 <body>
+    <!--Página principal-->
     <div data-role="page">
         <div data-role="header">
             <h1>Página Principal</h1>
-        </div>
-        <div role="main" class="ui-content">
-            <p>Detalle Página Principal</p>
-        </div>
-        <div data-role="footer">
-            <h4>Pie página Principal</h4>
-        </div>
-        <h3>Otras Páginas:</h3>
-        <p><a href="#index" class="ui-btn ui-shadow ui-corner-all">Mostrar Página 2</a></p>
-        <p><a href="#popup" class="ui-btn ui-shadow ui-corner-all" data-rel="dialog" data-transition="pop">Acerca de</a></p>
-    </div>
-    <div data-role="page" id="index">
-        <div data-role="header">
-            <h1>Prueba práctica</h1>
         </div>
         <div role="main" class="ui-content">
             <table id="dataGrid" class="table table-striped table-bordered" style="width:100%">
@@ -105,27 +135,54 @@
                         <th>Nombre</th>
                         <th>Latidud</th>
                         <th>Longitud</th>
+                        <th>Numero de Habitantes</th>
                     </tr>
                 </thead>
             </table>
         </div>
+        <div role="main" class="ui-content">
+            <p>Detalle Página Principal</p>
+        </div>
+        <h3>Otras Páginas:</h3>
+        <p><a href="#index" class="ui-btn ui-shadow ui-corner-all">Mostrar Página 2</a></p>
+        <p><a href="#popup" class="ui-btn ui-shadow ui-corner-all" data-rel="dialog" data-transition="pop">Acerca de</a></p>
+    </div>
+
+    <!--Página 2-->
+    <div data-role="page" id="index">
+        <div data-role="header">
+            <h1>Prueba práctica</h1>
+        </div>
+        <div role="main" class="ui-content">
+        <table id="dataGrid2" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Latidud</th>
+                    <th>Longitud</th>
+                    <th>idema</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
         <p><a href="#one" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-icon-back ui-btn-icon-left">Atrás</a></p>
         <div data-role="footer">
             <h4>Pie de Página</h4>
         </div>
     </div>
-    <div data-role="page" id="popup">
-        <div data-role="header" data-theme="b">
-            <h1>Acerca de</h1>
+
+    <!--Ventada emergente-->
+        <div data-role="page" id="popup">
+            <div data-role="header" data-theme="b">
+                <h1>Ventada de Créditos</h1>
+            </div>
+            <div role="main" class="ui-content">
+                <h2>Creador:</h2>
+                <p>Jaime López Sánchez</p>
+                <p>48734125T</p>
+                <p>jls41@alu.ua.es</p>
+                <p><a href="#one" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-btninline ui-icon-back ui-btn-icon-left">Atrás</a></p>
+            </div>
         </div>
-        <div role="main" class="ui-content">
-            <h2>Acerca de</h2>
-            <p>Ventana dialogo de prueba.</p>
-            <p><a href="#one" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-btninline ui-icon-back ui-btn-icon-left">Atrás</a></p>
-        </div>
-        <div data-role="footer">
-            <h4>Pie página Dialogo</h4>
-        </div>
-    </div>
 </body>
 </html>
